@@ -1,5 +1,7 @@
 import './App.css';
 
+import joystick from './assets/joystick.png';
+import stars from './assets/stars.png';
 import { Grid } from './component/Grid';
 import { useGame } from './hooks/useGame';
 
@@ -18,6 +20,14 @@ const App = () => {
           <button onClick={resetGame}>Play Again</button>
         </div>
       )}
+      <div className="rule">
+        <img src={stars} />
+        <p>Join tiles with the same value to get 128</p>
+      </div>
+      <div className="rule">
+        <img src={joystick} />
+        <p>Play with arrow keys or swipe</p>
+      </div>
     </div>
   );
 };
