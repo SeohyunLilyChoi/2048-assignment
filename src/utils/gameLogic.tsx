@@ -107,3 +107,24 @@ export const moveDown = (
   const canMove = JSON.stringify(newGrid) !== JSON.stringify(grid);
   return { newGrid, canMove };
 };
+
+export const winGame = (grid: Tile[][]): boolean => {
+  return grid.some((row) => row.some((tile) => tile === 128));
+};
+
+export const isGameOver = (grid: Tile[][]): boolean => {
+  const hasEmptyTile = grid.some((row) => row.some((tile) => tile === null));
+  if (hasEmptyTile) return false;
+
+  const hasPossibleMerge = grid.some((row, i) =>
+    row.some((tile, j) => {
+      const rightNeighbor = j < GridSize - 1 ? grid[i]?.[j + 1] : null;
+      const bottomNeighbor = i < GridSize - 1 ? grid[i + 1]?.[j] : null;
+      return (
+        tile !== null && (tile === rightNeighbor || tile === bottomNeighbor)
+      );
+    }),
+  );
+
+  return !hasPossibleMerge;
+};
