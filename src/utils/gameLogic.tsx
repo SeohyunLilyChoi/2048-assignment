@@ -39,19 +39,25 @@ export const addNew = (grid: Tile[][]): Tile[][] => {
   return newGrid;
 };
 
-const slideRow = (row: Tile[]): Tile[] => {
+const slideRow = (
+  row: Tile[],
+  updateScore: (points: number) => void,
+): Tile[] => {
   const filteredRow = row.filter((num) => num !== null);
   const newRow: Tile[] = [];
+  let points = 0;
 
   for (let i = 0; i < filteredRow.length; i++) {
     if (filteredRow[i] === filteredRow[i + 1]) {
       const mergedValue = (filteredRow[i] ?? 0) * 2;
       newRow.push(mergedValue);
+      points += mergedValue;
       i++;
     } else {
       newRow.push(filteredRow[i] ?? 0);
     }
   }
+  updateScore(points);
   return newRow.concat(Array(GridSize - newRow.length).fill(null));
 };
 
@@ -60,25 +66,32 @@ const rotateGrid = (grid: Tile[][]): Tile[][] =>
 
 export const moveLeft = (
   grid: Tile[][],
+  updateScore: (points: number) => void,
 ): { newGrid: Tile[][]; canMove: boolean } => {
-  const newGrid = grid.map((row) => slideRow(row));
+  const newGrid = grid.map((row) => slideRow(row, updateScore));
   const canMove = JSON.stringify(newGrid) !== JSON.stringify(grid);
   return { newGrid, canMove };
 };
 
 export const moveRight = (
   grid: Tile[][],
+  updateScore: (points: number) => void,
 ): { newGrid: Tile[][]; canMove: boolean } => {
-  const newGrid = grid.map((row) => slideRow([...row].reverse()).reverse());
+  const newGrid = grid.map((row) =>
+    slideRow([...row].reverse(), updateScore).reverse(),
+  );
   const canMove = JSON.stringify(newGrid) !== JSON.stringify(grid);
   return { newGrid, canMove };
 };
 
 export const moveUp = (
   grid: Tile[][],
+  updateScore: (points: number) => void,
 ): { newGrid: Tile[][]; canMove: boolean } => {
   let newGrid = rotateGrid(grid);
-  newGrid = newGrid.map((row) => slideRow([...row].reverse()).reverse());
+  newGrid = newGrid.map((row) =>
+    slideRow([...row].reverse(), updateScore).reverse(),
+  );
   newGrid = rotateGrid(rotateGrid(rotateGrid(newGrid)));
   const canMove = JSON.stringify(newGrid) !== JSON.stringify(grid);
   return { newGrid, canMove };
@@ -86,9 +99,10 @@ export const moveUp = (
 
 export const moveDown = (
   grid: Tile[][],
+  updateScore: (points: number) => void,
 ): { newGrid: Tile[][]; canMove: boolean } => {
   let newGrid = rotateGrid(grid);
-  newGrid = newGrid.map((row) => slideRow(row));
+  newGrid = newGrid.map((row) => slideRow(row, updateScore));
   newGrid = rotateGrid(rotateGrid(rotateGrid(newGrid)));
   const canMove = JSON.stringify(newGrid) !== JSON.stringify(grid);
   return { newGrid, canMove };

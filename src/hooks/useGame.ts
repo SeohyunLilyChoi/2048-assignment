@@ -13,11 +13,16 @@ export type Tile = number | null;
 
 export const useGame = () => {
   const [grid, setGrid] = useState<Tile[][]>(generateEmptyGrid);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     let newGrid = addNew(generateEmptyGrid());
     newGrid = addNew(newGrid);
     setGrid(newGrid);
+  }, []);
+
+  const updateScore = useCallback((points: number) => {
+    setScore((prevScore) => prevScore + points);
   }, []);
 
   const handleKeyDown = useCallback(
@@ -27,25 +32,25 @@ export const useGame = () => {
 
       switch (e.key) {
         case 'ArrowLeft': {
-          const leftResult = moveLeft(grid);
+          const leftResult = moveLeft(grid, updateScore);
           newGrid = leftResult.newGrid;
           canMove = leftResult.canMove;
           break;
         }
         case 'ArrowRight': {
-          const rightResult = moveRight(grid);
+          const rightResult = moveRight(grid, updateScore);
           newGrid = rightResult.newGrid;
           canMove = rightResult.canMove;
           break;
         }
         case 'ArrowUp': {
-          const upResult = moveUp(grid);
+          const upResult = moveUp(grid, updateScore);
           newGrid = upResult.newGrid;
           canMove = upResult.canMove;
           break;
         }
         case 'ArrowDown': {
-          const downResult = moveDown(grid);
+          const downResult = moveDown(grid, updateScore);
           newGrid = downResult.newGrid;
           canMove = downResult.canMove;
           break;
@@ -59,7 +64,7 @@ export const useGame = () => {
         setGrid(newGrid);
       }
     },
-    [grid],
+    [grid, updateScore],
   );
 
   useEffect(() => {
@@ -69,5 +74,5 @@ export const useGame = () => {
     };
   }, [handleKeyDown]);
 
-  return { grid };
+  return { grid, score };
 };
