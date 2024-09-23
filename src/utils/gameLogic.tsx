@@ -1,7 +1,11 @@
 import type { Tile } from '../hooks/useGame';
 
+const GridSize = 4;
+
 export const generateEmptyGrid = (): Tile[][] => {
-  return Array.from({ length: 4 }, () => Array.from({ length: 4 }, () => null));
+  return Array.from({ length: GridSize }, () =>
+    Array.from({ length: GridSize }, () => null),
+  );
 };
 
 const getRandomEmptyTile = (grid: Tile[][]): [number, number] | null => {
@@ -33,4 +37,59 @@ export const addNew = (grid: Tile[][]): Tile[][] => {
   }
 
   return newGrid;
+};
+
+const slideRow = (row: Tile[]): Tile[] => {
+  const filteredRow = row.filter((num) => num !== null);
+  const newRow: Tile[] = [];
+
+  for (let i = 0; i < filteredRow.length; i++) {
+    if (filteredRow[i] === filteredRow[i + 1]) {
+      const mergedValue = (filteredRow[i] ?? 0) * 2;
+      newRow.push(mergedValue);
+      i++;
+    } else {
+      newRow.push(filteredRow[i] ?? 0);
+    }
+  }
+  return newRow.concat(Array(GridSize - newRow.length).fill(null));
+};
+
+const rotateGrid = (grid: Tile[][]): Tile[][] =>
+  grid.map((_, colIndex) => grid.map((row) => row[colIndex] ?? null).reverse());
+
+export const moveLeft = (
+  grid: Tile[][],
+): { newGrid: Tile[][]; canMove: boolean } => {
+  const newGrid = grid.map((row) => slideRow(row));
+  const canMove = JSON.stringify(newGrid) !== JSON.stringify(grid);
+  return { newGrid, canMove };
+};
+
+export const moveRight = (
+  grid: Tile[][],
+): { newGrid: Tile[][]; canMove: boolean } => {
+  const newGrid = grid.map((row) => slideRow([...row].reverse()).reverse());
+  const canMove = JSON.stringify(newGrid) !== JSON.stringify(grid);
+  return { newGrid, canMove };
+};
+
+export const moveUp = (
+  grid: Tile[][],
+): { newGrid: Tile[][]; canMove: boolean } => {
+  let newGrid = rotateGrid(grid);
+  newGrid = newGrid.map((row) => slideRow([...row].reverse()).reverse());
+  newGrid = rotateGrid(rotateGrid(rotateGrid(newGrid)));
+  const canMove = JSON.stringify(newGrid) !== JSON.stringify(grid);
+  return { newGrid, canMove };
+};
+
+export const moveDown = (
+  grid: Tile[][],
+): { newGrid: Tile[][]; canMove: boolean } => {
+  let newGrid = rotateGrid(grid);
+  newGrid = newGrid.map((row) => slideRow(row));
+  newGrid = rotateGrid(rotateGrid(rotateGrid(newGrid)));
+  const canMove = JSON.stringify(newGrid) !== JSON.stringify(grid);
+  return { newGrid, canMove };
 };
