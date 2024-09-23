@@ -4,7 +4,7 @@ export const generateEmptyGrid = (): Tile[][] => {
   return Array.from({ length: 4 }, () => Array.from({ length: 4 }, () => null));
 };
 
-export const getRandomEmptyTile = (grid: Tile[][]): [number, number] | null => {
+const getRandomEmptyTile = (grid: Tile[][]): [number, number] | null => {
   const emptyTiles: [number, number][] = [];
   grid.forEach((row, i) => {
     row.forEach((tile, j) => {
