@@ -26,7 +26,7 @@ const App = () => {
       </div>
       <div className="rule">
         <img src={joystick} />
-        <p>Play with arrow keys or swipe</p>
+        <p>Play with arrow keys</p>
       </div>
     </div>
   );
