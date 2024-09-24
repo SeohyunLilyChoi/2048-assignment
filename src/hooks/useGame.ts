@@ -3,10 +3,12 @@ import { useCallback, useEffect, useState } from 'react';
 import {
   addNew,
   generateEmptyGrid,
+  isGameOver,
   moveDown,
   moveLeft,
   moveRight,
   moveUp,
+  winGame,
 } from '../utils/gameLogic';
 
 export type Tile = number | null;
@@ -14,6 +16,8 @@ export type Tile = number | null;
 export const useGame = () => {
   const [grid, setGrid] = useState<Tile[][]>(generateEmptyGrid);
   const [score, setScore] = useState(0);
+  const [isGameEnded, setIsGameEnded] = useState(false);
+  const [isWin, setIsWin] = useState(false);
 
   useEffect(() => {
     let newGrid = addNew(generateEmptyGrid());
@@ -25,8 +29,23 @@ export const useGame = () => {
     setScore((prevScore) => prevScore + points);
   }, []);
 
+  const checkGameEnd = useCallback((currentGrid: Tile[][]) => {
+    if (winGame(currentGrid)) {
+      setIsWin(true);
+      setIsGameEnded(true);
+      return true;
+    }
+    if (isGameOver(currentGrid)) {
+      setIsGameEnded(true);
+      return true;
+    }
+    return false;
+  }, []);
+
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      if (isGameEnded) return;
+
       let newGrid: Tile[][] = [...grid.map((row) => [...row])];
       let canMove = false;
 
@@ -62,9 +81,10 @@ export const useGame = () => {
       if (canMove) {
         newGrid = addNew(newGrid);
         setGrid(newGrid);
+        checkGameEnd(newGrid);
       }
     },
-    [grid, updateScore],
+    [grid, updateScore, isGameEnded, checkGameEnd],
   );
 
   useEffect(() => {
@@ -74,5 +94,14 @@ export const useGame = () => {
     };
   }, [handleKeyDown]);
 
-  return { grid, score };
+  const resetGame = () => {
+    let newGrid = addNew(generateEmptyGrid());
+    newGrid = addNew(newGrid);
+    setGrid(newGrid);
+    setScore(0);
+    setIsGameEnded(false);
+    setIsWin(false);
+  };
+
+  return { grid, score, isGameEnded, isWin, resetGame };
 };
