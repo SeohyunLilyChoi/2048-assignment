@@ -1765,18 +1765,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-tailwindcss@npm:3.17.5":
-  version: 3.17.5
-  resolution: "eslint-plugin-tailwindcss@npm:3.17.5"
-  dependencies:
-    fast-glob: "npm:^3.2.5"
-    postcss: "npm:^8.4.4"
-  peerDependencies:
-    tailwindcss: ^3.4.0
-  checksum: 10c0/9ff1a36fd07f8066474f002bd82c24f1d3910b6ef484a452ec4ba1543b985dc1fde02266a21d458afba02fa404daa88b99cfbad8b4324e5d7bbae5fb1ab535c2
-  languageName: node
-  linkType: hard
-
 "eslint-scope@npm:^8.0.2":
   version: 8.2.0
   resolution: "eslint-scope@npm:8.2.0"
@@ -1907,7 +1895,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.2.5, fast-glob@npm:^3.3.2":
+"fast-glob@npm:^3.3.2":
   version: 3.3.2
   resolution: "fast-glob@npm:3.3.2"
   dependencies:
@@ -3312,7 +3300,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.4, postcss@npm:^8.4.43, postcss@npm:^8.4.47, postcss@npm:^8.4.49":
+"postcss@npm:^8.4.43, postcss@npm:^8.4.47, postcss@npm:^8.4.49":
   version: 8.4.49
   resolution: "postcss@npm:8.4.49"
   dependencies:
@@ -3663,7 +3651,6 @@ __metadata:
     "@woohm402/eslint-config-react": "npm:0.6.4"
     autoprefixer: "npm:^10.4.20"
     eslint: "npm:9.10.0"
-    eslint-plugin-tailwindcss: "npm:3.17.5"
     knip: "npm:5.30.2"
     postcss: "npm:^8.4.49"
     prettier: "npm:3.3.3"
