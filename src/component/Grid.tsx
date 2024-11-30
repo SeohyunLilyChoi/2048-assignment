@@ -7,9 +7,9 @@ type GridProps = {
 
 export const Grid = ({ grid }: GridProps) => {
   return (
-    <div className="grid">
+    <div className="grid bg-gray-800 rounded-md p-4 m-5">
       {grid.map((row, i) => (
-        <div key={i} className="row">
+        <div key={i} className="row flex">
           {row.map((tile, j) => (
             <TileComponent key={j} value={tile} />
           ))}
