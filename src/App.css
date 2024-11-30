@@ -1,4 +1,8 @@
-.App {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* .App {
   text-align: center;
   font-family: Arial, sans-serif;
 }
@@ -165,4 +169,4 @@ p {
 
 .game-end button:hover {
   background-color: #ea711a;
-}
+} */
