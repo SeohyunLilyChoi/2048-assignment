@@ -22,11 +22,13 @@
     "tailwindcss": "^3.4.15"
   },
   "devDependencies": {
+    "@types/eslint-plugin-tailwindcss": "^3",
     "@types/react": "18.3.5",
     "@types/react-dom": "18.3.0",
     "@vitejs/plugin-react-swc": "3.7.0",
     "@woohm402/eslint-config-react": "0.6.4",
     "eslint": "9.10.0",
+    "eslint-plugin-tailwindcss": "3.17.5",
     "knip": "5.30.2",
     "prettier": "3.3.3",
     "typescript": "~5.5.4",
